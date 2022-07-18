@@ -1,0 +1,9 @@
+.idea/
+.vscode/
+CMakeFiles/
+Testing/ 
+cmake-build-* 
+CMakeCache.txt 
+cmake_install.cmake 
+.DS_Store
+build/
