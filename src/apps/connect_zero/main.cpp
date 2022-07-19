@@ -6,15 +6,15 @@
 #include <thread>
 #include <chrono>
 
-#define TRY(FUNC, INIT_TEXT, SUCCESS_TEXT, FAILURE_TEXT) std::cout << INIT_TEXT;\
-    if (!FUNC) { \
-        std::cout << "\r" << FAILURE_TEXT; \
-        std::cout.flush(); \
-        return 1; \
-    } else { \
-        std::cout <<  "\r" << SUCCESS_TEXT; \
-        std::cout.flush(); \
-    }
+#define TRY(FUNC, INIT_TEXT, SUCCESS_TEXT, FAILURE_TEXT)    std::cout << INIT_TEXT << "                        "; \
+                                                            if (!FUNC) { \
+                                                                std::cout << "\r" << FAILURE_TEXT << "                        \n"; \
+                                                                std::cout.flush(); \
+                                                                return 1; \
+                                                            } else { \
+                                                                std::cout <<  "\r" << SUCCESS_TEXT << "                        \n"; \
+                                                                std::cout.flush(); \
+                                                            }
 
 int main(int argc, char* argv[])
 {
@@ -35,50 +35,25 @@ int main(int argc, char* argv[])
 
     CMeg cmeg;
 
-    std::cout << "Connecting to chassis...";
-    if (!cmeg.connect(ips)) {
-        std::cout << "\rUnable to connect.            \n";
-        std::cout.flush();
-        return 1;
-    } else {
-        std::cout << "\rConnected.                \n";
-        std::cout.flush();
-    }
+    TRY(cmeg.connect(ips),
+    "Connecting to chassis...",
+    "Connected.",
+    "Unable to connect.");
 
-    std::cout << "Restarting sensors...         ";
-    if (!cmeg.resetSensorsBlocking()) {
-        std::cout << "\rUnable to restart sensors.            \n";
-        std::cout.flush();
-        return 1;
-    } else {
-        std::cout << "\rSensors restarted.                \n";
-        std::cout.flush();
-    }
+    TRY(cmeg.resetSensorsBlocking(),
+    "Restarting sensors...",
+    "Sensors restarted.",
+    "Unable to restart sensors.");
 
-    std::cout << "Coarse zeroing sensors...         ";
-    if (!cmeg.resetSensorsBlocking()) {
-        std::cout << "\rCoarse zeroing failed.              \n";
-        std::cout.flush();
-        return 1;
-    } else {
-        std::cout << "\rCoarse zeroing completed               \n";
-        std::cout.flush();
-    }
+    TRY(cmeg.coarseZeroBlocking(),
+    "Coarse zeroing sensors...",
+    "Coarse zeroing completed.",
+    "Coarse zeroing failed.");
 
-    std::cout << "Fine zeroing sensors...         ";
-    if (!cmeg.resetSensorsBlocking()) {
-        std::cout << "\rFine zeroing failed.              \n";
-        std::cout.flush();
-        return 1;
-    } else {
-        std::cout << "\rFine zeroing completed               \n";
-        std::cout.flush();
-    }
-
-    // 
-    // std::this_thread::sleep_for(std::chrono::milliseconds(200));
-
-
+    TRY(cmeg.fineZeroBlocking(),
+    "Fine zeroing sensors...",
+    "Fine zeroing completed.",
+    "Fine zeroing failed.");
 
     return 0;
 }
