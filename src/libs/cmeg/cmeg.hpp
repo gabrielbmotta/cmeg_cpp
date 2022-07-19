@@ -1,6 +1,8 @@
 #ifndef CMEG_CMEG_HPP
 #define CMEG_CMEG_HPP
 
+#include "net-protocol.pb.h"
+
 #include <vector>
 #include <string>
 
@@ -10,9 +12,16 @@ public:
     CMeg();
     CMeg(std::string address);
     CMeg(std::vector<std::string> addresses);
+
+    ~CMeg();
     
     bool connect(std::string address);
     bool connect(std::vector<std::string> addresses);
+    bool connected();
+
+    bool disconnect();
+
+    std::vector<std::string> ipList();
 
     void resetSensors();
     bool resetSensorsBlocking();
@@ -26,9 +35,11 @@ public:
     void start();
     void stop();
 
-    ~CMeg();
 private:
+    bool connect();
 
+    void *(_callback)();
+    std::vector<std::string> _ipList;
 };
 
 #endif

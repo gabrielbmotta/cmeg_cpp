@@ -13,4 +13,4 @@ include_directories(${PROTOBUF_INCLUDE_DIR})
 
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
-target_link_libraries(${PROJECT_NAME} tracer utils networking ${PROTOBUF_LIBRARY})
+target_link_libraries(${PROJECT_NAME} tracer networking ${PROTOBUF_LIBRARY})
