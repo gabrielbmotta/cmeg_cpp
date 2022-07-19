@@ -1,0 +1,819 @@
+file {
+  name: "net-protocol.proto"
+  message_type {
+    name: "DataFrame"
+    field {
+      name: "sensor"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_INT32
+    }
+    field {
+      name: "datatype"
+      number: 2
+      label: LABEL_REQUIRED
+      type: TYPE_INT32
+    }
+    field {
+      name: "val"
+      number: 3
+      label: LABEL_REQUIRED
+      type: TYPE_INT32
+    }
+  }
+  message_type {
+    name: "DataPacket"
+    field {
+      name: "timestamp"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "chassis_name"
+      number: 2
+      label: LABEL_REQUIRED
+      type: TYPE_STRING
+    }
+    field {
+      name: "num_sensors"
+      number: 3
+      label: LABEL_REQUIRED
+      type: TYPE_INT32
+    }
+    field {
+      name: "data"
+      number: 4
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".DataFrame"
+    }
+  }
+  message_type {
+    name: "RawCommand"
+    field {
+      name: "all_sensors"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_BOOL
+    }
+    field {
+      name: "sensor_num"
+      number: 2
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "register_address"
+      number: 3
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "data"
+      number: 4
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+  }
+  message_type {
+    name: "DevModeValidation"
+    field {
+      name: "password"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "valid"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+    }
+    field {
+      name: "enable"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+    }
+  }
+  message_type {
+    name: "ConfigMessage"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "datatype"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "freq"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+  }
+  message_type {
+    name: "LogicMessage"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "type"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".LogicMessage.EnumLogicType"
+    }
+    field {
+      name: "sensor_list"
+      number: 3
+      label: LABEL_REPEATED
+      type: TYPE_UINT32
+    }
+    enum_type {
+      name: "EnumLogicType"
+      value {
+        name: "LOGIC_SENSOR_RESTART"
+        number: 1
+      }
+      value {
+        name: "LOGIC_SENSOR_COARSE_ZERO"
+        number: 2
+      }
+      value {
+        name: "LOGIC_SENSOR_OFF"
+        number: 3
+      }
+      value {
+        name: "LOGIC_SENSOR_IDLE"
+        number: 4
+      }
+      value {
+        name: "LOGIC_SENSOR_FINE_ZERO"
+        number: 5
+      }
+      value {
+        name: "LOGIC_SENSOR_STASIS_ON"
+        number: 32
+      }
+      value {
+        name: "LOGIC_SENSOR_STASIS_OFF"
+        number: 33
+      }
+    }
+  }
+  message_type {
+    name: "LogicInterruptMessage"
+    field {
+      name: "type"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "sensor_list"
+      number: 2
+      label: LABEL_REPEATED
+      type: TYPE_UINT32
+    }
+  }
+  message_type {
+    name: "WaveMessage"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "freq"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_FLOAT
+    }
+    field {
+      name: "amp"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_FLOAT
+    }
+    field {
+      name: "type"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    enum_type {
+      name: "WaveType"
+      value {
+        name: "WAVE_OFF"
+        number: 0
+      }
+      value {
+        name: "WAVE_RAMP"
+        number: 1
+      }
+      value {
+        name: "WAVE_SINE"
+        number: 2
+      }
+    }
+  }
+  message_type {
+    name: "CmdPacket"
+    field {
+      name: "cmd"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_ENUM
+      type_name: ".CmdPacket.EnumCmdType"
+    }
+    field {
+      name: "sensor_id"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "datatype"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "freq"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "raw_cmd"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".RawCommand"
+    }
+    field {
+      name: "uri"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "config_list"
+      number: 7
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".ConfigMessage"
+    }
+    field {
+      name: "dev_mode"
+      number: 8
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".DevModeValidation"
+    }
+    field {
+      name: "logic_req"
+      number: 9
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".LogicMessage"
+    }
+    field {
+      name: "wave_req"
+      number: 10
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".WaveMessage"
+    }
+    field {
+      name: "chassis_ident"
+      number: 11
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+    }
+    field {
+      name: "closed_loop"
+      number: 12
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+    }
+    field {
+      name: "logic_interrupt_req"
+      number: 13
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".LogicInterruptMessage"
+    }
+    field {
+      name: "num_sync_chassis"
+      number: 14
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    enum_type {
+      name: "EnumCmdType"
+      value {
+        name: "STATUS_REQ"
+        number: 2
+      }
+      value {
+        name: "CONFIG_DATA"
+        number: 3
+      }
+      value {
+        name: "RAW_CMD"
+        number: 4
+      }
+      value {
+        name: "RAW_CMD_RESP"
+        number: 5
+      }
+      value {
+        name: "DL_URI"
+        number: 6
+      }
+      value {
+        name: "RESET_FPGA"
+        number: 7
+      }
+      value {
+        name: "UPDATE"
+        number: 8
+      }
+      value {
+        name: "UPDATE_COMMIT"
+        number: 9
+      }
+      value {
+        name: "SENSOR_STATUS_REQ"
+        number: 10
+      }
+      value {
+        name: "SENSOR_CONFIG_REQ"
+        number: 11
+      }
+      value {
+        name: "FLASH_CHASSIS"
+        number: 12
+      }
+      value {
+        name: "FLASH_SENSORS"
+        number: 13
+      }
+      value {
+        name: "REBOOT"
+        number: 14
+      }
+      value {
+        name: "SYNC"
+        number: 15
+      }
+      value {
+        name: "ONE_TIME_READ_REQ"
+        number: 16
+      }
+      value {
+        name: "CONFIG_LIST"
+        number: 17
+      }
+      value {
+        name: "DEV_MODE_REQ"
+        number: 18
+      }
+      value {
+        name: "LOGIC_REQ"
+        number: 19
+      }
+      value {
+        name: "WAVE_REQ"
+        number: 20
+      }
+      value {
+        name: "IDENT_REQ"
+        number: 21
+      }
+      value {
+        name: "CLOSED_LOOP_REQ"
+        number: 22
+      }
+      value {
+        name: "SYSTEM_STATUS_REQ"
+        number: 23
+      }
+      value {
+        name: "LOGIC_INTERRUPT_REQ"
+        number: 24
+      }
+      value {
+        name: "SYNC_CMD_REQ"
+        number: 25
+      }
+      value {
+        name: "COMPLETE_SYSTEM_STATUS_REQ"
+        number: 26
+      }
+    }
+  }
+  message_type {
+    name: "SensorStatus"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "sensor_card_serial_num"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "sensor_version"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "sensor_connected"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+    }
+    field {
+      name: "sensor_serial_num"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+  }
+  message_type {
+    name: "SensorState"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "state"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".SensorState.EnumStateType"
+    }
+    field {
+      name: "error_flags"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    enum_type {
+      name: "EnumStateType"
+      value {
+        name: "OFF"
+        number: 0
+      }
+      value {
+        name: "IDLE"
+        number: 1
+      }
+      value {
+        name: "ERROR"
+        number: 2
+      }
+      value {
+        name: "SOFT_ERROR"
+        number: 3
+      }
+      value {
+        name: "READY"
+        number: 4
+      }
+      value {
+        name: "RESTART"
+        number: 10
+      }
+      value {
+        name: "RESTART_COMPLETE"
+        number: 11
+      }
+      value {
+        name: "COARSE_ZERO"
+        number: 12
+      }
+      value {
+        name: "COARSE_ZERO_COMPLETE"
+        number: 13
+      }
+      value {
+        name: "FINE_ZERO"
+        number: 14
+      }
+      value {
+        name: "FINE_ZERO_COMPLETE"
+        number: 15
+      }
+    }
+  }
+  message_type {
+    name: "SensorConfig"
+    field {
+      name: "sensor"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "datatype"
+      number: 2
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "freq"
+      number: 3
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "calibration"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_FLOAT
+    }
+  }
+  message_type {
+    name: "SensorLed"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "blink_state"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "color"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+  }
+  message_type {
+    name: "SensorField"
+    field {
+      name: "sensor_id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "field_x"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_FLOAT
+    }
+    field {
+      name: "field_y"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_FLOAT
+    }
+    field {
+      name: "field_z"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_FLOAT
+    }
+  }
+  message_type {
+    name: "ChassisStatus"
+    field {
+      name: "closed_loop"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+    }
+  }
+  message_type {
+    name: "SystemStatusMessage"
+    field {
+      name: "num"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "total"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "version"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "master"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "serial"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "serial_short"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+  }
+  message_type {
+    name: "StatusPacket"
+    field {
+      name: "chassis_name"
+      number: 1
+      label: LABEL_REQUIRED
+      type: TYPE_STRING
+    }
+    field {
+      name: "type"
+      number: 2
+      label: LABEL_REQUIRED
+      type: TYPE_ENUM
+      type_name: ".StatusPacket.EnumStatusType"
+    }
+    field {
+      name: "num_sensors"
+      number: 3
+      label: LABEL_REQUIRED
+      type: TYPE_UINT32
+    }
+    field {
+      name: "sensor_status"
+      number: 4
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".SensorStatus"
+    }
+    field {
+      name: "version"
+      number: 5
+      label: LABEL_REQUIRED
+      type: TYPE_STRING
+    }
+    field {
+      name: "progress"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT32
+    }
+    field {
+      name: "progress_msg"
+      number: 7
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+    }
+    field {
+      name: "sensor_config"
+      number: 8
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".SensorConfig"
+    }
+    field {
+      name: "status"
+      number: 9
+      label: LABEL_REQUIRED
+      type: TYPE_ENUM
+      type_name: ".StatusPacket.EnumSystemStatus"
+    }
+    field {
+      name: "sensor_led"
+      number: 10
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".SensorLed"
+    }
+    field {
+      name: "sensor_state"
+      number: 11
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".SensorState"
+    }
+    field {
+      name: "sensor_field"
+      number: 12
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".SensorField"
+    }
+    field {
+      name: "chassis_status"
+      number: 13
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".ChassisStatus"
+    }
+    field {
+      name: "system_status"
+      number: 14
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".SystemStatusMessage"
+    }
+    enum_type {
+      name: "EnumStatusType"
+      value {
+        name: "STATUS"
+        number: 0
+      }
+      value {
+        name: "PROGRESS"
+        number: 1
+      }
+      value {
+        name: "SENSOR_STATUS"
+        number: 2
+      }
+      value {
+        name: "SENSOR_CONFIG"
+        number: 3
+      }
+      value {
+        name: "SENSOR_LED"
+        number: 4
+      }
+      value {
+        name: "SENSOR_STATE"
+        number: 5
+      }
+      value {
+        name: "SENSOR_FIELD"
+        number: 6
+      }
+      value {
+        name: "SYSTEM_STATUS"
+        number: 7
+      }
+      value {
+        name: "COMPLETE_SYSTEM_STATUS"
+        number: 8
+      }
+    }
+    enum_type {
+      name: "EnumSystemStatus"
+      value {
+        name: "STARTUP"
+        number: 0
+      }
+      value {
+        name: "FLASHING"
+        number: 1
+      }
+      value {
+        name: "RUNNING"
+        number: 2
+      }
+      value {
+        name: "MENDER_UPDATE_FAIL"
+        number: 3
+      }
+      value {
+        name: "FPGA_UPDATE_FAIL"
+        number: 4
+      }
+      value {
+        name: "PENDING_COMMIT"
+        number: 5
+      }
+      value {
+        name: "STARTUP_ERROR"
+        number: 6
+      }
+    }
+  }
+}
