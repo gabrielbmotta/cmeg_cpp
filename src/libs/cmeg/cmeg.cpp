@@ -10,7 +10,10 @@ CMeg::CMeg()
 CMeg::CMeg(std::string address)
 : _ipList{{address}}
 {
-    connect();
+    if(connect())
+    {
+        checkAvailableSensors();
+    }
 }
 
 //==============================================================================
@@ -18,7 +21,10 @@ CMeg::CMeg(std::string address)
 CMeg::CMeg(std::vector<std::string> addresses)
 : _ipList{addresses}
 {
-    connect();
+    if(connect())
+    {
+        checkAvailableSensors();
+    }
 }
 
 //==============================================================================
@@ -33,7 +39,12 @@ CMeg::~CMeg()
 bool CMeg::connect(std::string address)
 {
     _ipList = {address};
-    return connect();
+    if(connect())
+    {
+        checkAvailableSensors();
+        return true;
+    }
+    return false;
 }
 
 //==============================================================================
@@ -41,7 +52,12 @@ bool CMeg::connect(std::string address)
 bool CMeg::connect(std::vector<std::string> addresses)
 {
     _ipList = addresses;
-    return connect();
+    if(connect())
+    {
+        checkAvailableSensors();
+        return true;
+    }
+    return false;
 }
 
 //==============================================================================
@@ -88,6 +104,13 @@ bool CMeg::resetSensorsBlocking()
 
 //==============================================================================
 
+void CMeg::setResetTimeout(int msec)
+{
+    _resetTiemout = msec;
+}
+
+//==============================================================================
+
 void CMeg::coarseZero()
 {
 
@@ -99,6 +122,13 @@ bool CMeg::coarseZeroBlocking()
 {
     return false;
 
+}
+
+//==============================================================================
+
+void CMeg::setCoarseZeroTimeout(int msec)
+{
+    _coarseZeroTimeout = msec;
 }
 
 //==============================================================================
@@ -117,6 +147,13 @@ bool CMeg::fineZeroBlocking()
 
 //==============================================================================
 
+void CMeg::setFineZeroTimeout(int msec)
+{
+    _fineZeroTimeout = msec;
+}
+
+//==============================================================================
+
 void CMeg::start()
 {
 
@@ -125,6 +162,13 @@ void CMeg::start()
 //==============================================================================
 
 void CMeg::stop()
+{
+
+}
+
+//==============================================================================
+
+void CMeg::checkAvailableSensors()
 {
 
 }

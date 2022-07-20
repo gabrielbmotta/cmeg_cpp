@@ -3,8 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <thread>
-#include <chrono>
 
 #define TRY(FUNC, INIT_TEXT, SUCCESS_TEXT, FAILURE_TEXT)    std::cout << INIT_TEXT << "                        "; \
                                                             if (!FUNC) { \
