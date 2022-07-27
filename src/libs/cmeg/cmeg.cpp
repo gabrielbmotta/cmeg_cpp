@@ -1,5 +1,7 @@
 #include "cmeg.hpp"
 
+//==============================================================================
+
 CMeg::CMeg()
 {
 
@@ -76,6 +78,20 @@ bool CMeg::connected()
 
 //==============================================================================
 
+void CMeg::setConnectionTimeout(int msec)
+{
+    _connectionTimeout = msec;
+}
+
+//==============================================================================
+
+void CMeg::setPort(int _port)
+{
+
+}
+
+//==============================================================================
+
 bool CMeg::disconnect()
 {
     return false;
@@ -90,37 +106,22 @@ std::vector<std::string> CMeg::ipList()
 
 //==============================================================================
 
-void CMeg::resetSensors()
+bool CMeg::restartSensors()
 {
     
 }
 
 //==============================================================================
 
-bool CMeg::resetSensorsBlocking()
-{
-    return false;
-}
-
-//==============================================================================
-
-void CMeg::setResetTimeout(int msec)
+void CMeg::setRestartTimeout(int msec)
 {
     _resetTiemout = msec;
 }
 
 //==============================================================================
 
-void CMeg::coarseZero()
+bool CMeg::coarseZeroSensors()
 {
-
-}
-
-//==============================================================================
-
-bool CMeg::coarseZeroBlocking()
-{
-    return false;
 
 }
 
@@ -133,16 +134,9 @@ void CMeg::setCoarseZeroTimeout(int msec)
 
 //==============================================================================
 
-void CMeg::fineZero()
+bool CMeg::fineZeroSensors()
 {
 
-}
-
-//==============================================================================
-
-bool CMeg::fineZeroBlocking()
-{
-    return false;
 }
 
 //==============================================================================

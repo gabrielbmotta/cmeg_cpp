@@ -6,7 +6,6 @@
 #include <vector>
 #include <string>
 
-
 class CMeg
 {
 public:
@@ -14,6 +13,7 @@ public:
     {
         enum State{
         SENSOR_OFF,
+        SENSOR_ON,
         SENSOR_COARSE_ZEROING,
         SENSOR_COARSE_ZEROED,
         SENSOR_FINE_ZEROING,
@@ -34,20 +34,20 @@ public:
     bool connect(std::vector<std::string> addresses);
     bool connected();
 
+    void setConnectionTimeout(int msec);
+    void setPort(int port);
+
     bool disconnect();
 
     std::vector<std::string> ipList();
 
-    void resetSensors();
-    bool resetSensorsBlocking();
-    void setResetTimeout(int msec);
+    bool restartSensors();
+    void setRestartTimeout(int msec);
 
-    void coarseZero();
-    bool coarseZeroBlocking();
+    bool coarseZeroSensors();
     void setCoarseZeroTimeout(int msec);
 
-    void fineZero();
-    bool fineZeroBlocking();
+    bool fineZeroSensors();
     void setFineZeroTimeout(int msec);
 
     void start();
@@ -60,8 +60,11 @@ private:
 
     void *(_callback)();
     std::vector<std::string> _ipList;
-    std::vector<Sensors> _sensorList;
+    int _port;
 
+    std::vector<Sensor> _sensorList;
+
+    int _connectionTimeout;
     int _resetTiemout;
     int _coarseZeroTimeout;
     int _fineZeroTimeout;
